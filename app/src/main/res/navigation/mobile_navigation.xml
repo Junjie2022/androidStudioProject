@@ -6,6 +6,11 @@
     app:startDestination="@+id/nav_home">
 
     <fragment
+        android:id="@+id/nav_grading"
+        android:name="info.hccis.grading.ui.grading.GradingFragment"
+        android:label="@string/menu_grading"
+        tools:layout="@layout/fragment_grading" />
+    <fragment
         android:id="@+id/nav_home"
         android:name="info.hccis.grading.ui.home.HomeFragment"
         android:label="@string/menu_home"
