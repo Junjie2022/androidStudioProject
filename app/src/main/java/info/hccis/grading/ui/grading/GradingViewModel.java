@@ -1,4 +1,4 @@
-package info.hccis.grading.ui.grading.entity;
+package info.hccis.grading.ui.grading;
 
 import androidx.lifecycle.ViewModel;
 
