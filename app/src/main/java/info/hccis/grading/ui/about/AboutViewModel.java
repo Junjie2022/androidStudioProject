@@ -1,4 +1,4 @@
-package info.hccis.grading.ui.gallery;
+package info.hccis.grading.ui.about;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
