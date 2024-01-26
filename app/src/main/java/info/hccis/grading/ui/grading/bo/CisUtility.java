@@ -2,6 +2,17 @@ package info.hccis.grading.ui.grading.bo;
 
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -150,6 +161,45 @@ public class CisUtility {
         int theRandomNumber = rand.nextInt((max - min) + 1) + min;
         return theRandomNumber;
     }
+    public static void createFile(Activity activity, String fileName) {
 
+        try (
+                FileOutputStream fos = activity.openFileOutput(fileName, Context.MODE_PRIVATE)) {
+            Toast.makeText(activity.getApplicationContext(), "Created " + fileName, Toast.LENGTH_SHORT).show();
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public static void writeToFile(Activity activity, String fileName, String content) {
+        try (FileOutputStream fos = activity.openFileOutput(fileName, Context.MODE_APPEND)) {
+            fos.write(content.getBytes());
+            Toast.makeText(activity.getApplicationContext(), "Successfully wrote to " + fileName, Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static String readFromFile(Activity activity, String fileName){
+        FileInputStream fis;
+        try {
+            fis = activity.openFileInput(fileName);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+        StringBuilder strBuild = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(isr)) {
+            String line = reader.readLine();
+            while (line != null) {
+                strBuild.append(line).append('\n');
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return strBuild.toString();
+    }
 }

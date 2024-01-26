@@ -124,8 +124,14 @@ public class GradingAssessmentTechnical implements Serializable {
     @Override
     public String toString() {
 
-        String output="Assessment Details: StudentName: " + getStudentName()
-                + " CourseName: " + getCourseName() + " Numeric Grade: " + getNumericGrade()+"Letter Grade:"+getLetterGrade();
+        String output="--Assessment Details--" +
+                " \nStudentName: " + getStudentName()+
+                " \n CourseName: " + getCourseName() +
+                " \n CourseRoom: " + getCourseRoom() +
+                " \n InstructorName: " + getInstructorName() +
+                " \n AcademicYear: " + getAcademicYear() +
+                " \n NumericGrade: " + getNumericGrade()+
+                "\n LetterGrade:"+getLetterGrade();
         return output;
     }
 

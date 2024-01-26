@@ -1,5 +1,13 @@
 package info.hccis.grading.ui.grading.bo;
 
+import android.util.Log;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+
 import info.hccis.grading.ui.grading.entity.GradingAssessmentTechnical;
 
 public class GradingAssessmentBO {
@@ -23,5 +31,30 @@ public class GradingAssessmentBO {
         } else {
             return "F";
         }
+    }
+
+    /**
+     * This method will give back an ArrayList of assessments for testing until
+     * we can get this from our api.
+     *
+     * @return list
+     * @author Junjie
+     * @since 20240118
+     */
+    public static ArrayList<GradingAssessmentTechnical> getTestList() throws JSONException {
+        String jsonForAssessments = "[{\"id\":1,\"studentName\":\"Junjie\",\"instructorName\":\"BJ\",\"courseName\":\"CIS1122\" }]";
+        JSONArray jsonArray = new JSONArray(jsonForAssessments);
+        //**************************************************************
+        //For each json object in the array, show the first and last names
+        //**************************************************************
+        System.out.println("Here are the rows");
+        Gson gson = new Gson();
+        ArrayList<GradingAssessmentTechnical> theList = new ArrayList<>();
+        for (int currentIndex = 0; currentIndex < jsonArray.length(); currentIndex++) {
+            GradingAssessmentTechnical current = gson.fromJson(jsonArray.getJSONObject(currentIndex).toString(), GradingAssessmentTechnical.class);
+            theList.add(current);
+            Log.d("BJM test list", current.toString());
+        }
+        return theList;
     }
 }
