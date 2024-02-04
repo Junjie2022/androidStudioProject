@@ -1,4 +1,4 @@
-package info.hccis.grading.ui.grading.bo;
+package info.hccis.grading.bo;
 
 import android.util.Log;
 import com.google.gson.Gson;
@@ -8,7 +8,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import info.hccis.grading.ui.grading.entity.GradingAssessmentTechnical;
+import info.hccis.grading.entity.GradingAssessmentTechnical;
 
 public class GradingAssessmentBO {
     /**
@@ -43,7 +43,12 @@ public class GradingAssessmentBO {
      */
     public static ArrayList<GradingAssessmentTechnical> getTestList() throws JSONException {
         String jsonForAssessments = "[{\"id\":1,\"studentName\":\"Junjie\",\"instructorName\":\"BJ\",\"courseName\":\"CIS1122\" }]";
-        JSONArray jsonArray = new JSONArray(jsonForAssessments);
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(jsonForAssessments);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
         //**************************************************************
         //For each json object in the array, show the first and last names
         //**************************************************************
@@ -57,4 +62,5 @@ public class GradingAssessmentBO {
         }
         return theList;
     }
+
 }

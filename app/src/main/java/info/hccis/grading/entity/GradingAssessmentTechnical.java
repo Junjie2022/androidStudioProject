@@ -1,4 +1,4 @@
-package info.hccis.grading.ui.grading.entity;
+package info.hccis.grading.entity;
 import java.io.Serializable;
 public class GradingAssessmentTechnical implements Serializable {
     private static final long serialVersionUID = 1L;

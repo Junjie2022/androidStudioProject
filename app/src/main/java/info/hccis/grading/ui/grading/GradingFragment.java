@@ -13,11 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import info.hccis.grading.R;
 import info.hccis.grading.databinding.FragmentGradingBinding;
-import info.hccis.grading.ui.grading.bo.CisUtility;
-import info.hccis.grading.ui.grading.bo.GradingAssessmentBO;
-import info.hccis.grading.ui.grading.entity.GradingAssessmentTechnical;
+import info.hccis.grading.util.CisUtility;
+import info.hccis.grading.bo.GradingAssessmentBO;
+import info.hccis.grading.entity.GradingAssessmentTechnical;
 
 public class GradingFragment extends Fragment {
     private FragmentGradingBinding binding;

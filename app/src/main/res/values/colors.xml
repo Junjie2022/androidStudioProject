@@ -8,6 +8,9 @@
 <!--    <color name="black">#FF000000</color>-->
 <!--    <color name="white">#FFFFFFFF</color>-->
 <!--    <color name="seed">#c880c3</color>-->
+    <color name="colorAccent">#fcba03</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="md_theme_light_primary">#894587</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#FFD6F7</color>

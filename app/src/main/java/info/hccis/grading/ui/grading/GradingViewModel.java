@@ -2,7 +2,7 @@ package info.hccis.grading.ui.grading;
 
 import androidx.lifecycle.ViewModel;
 
-import info.hccis.grading.ui.grading.entity.GradingAssessmentTechnical;
+import info.hccis.grading.entity.GradingAssessmentTechnical;
 
 public class GradingViewModel extends ViewModel {
 

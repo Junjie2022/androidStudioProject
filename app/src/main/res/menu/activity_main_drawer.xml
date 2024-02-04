@@ -9,5 +9,11 @@
             android:id="@+id/nav_grading"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_grading" />
+
+
+        <item
+            android:id="@+id/nav_gradinglist"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_gradinglist" />
     </group>
 </menu>

@@ -1,4 +1,4 @@
-package info.hccis.grading.ui.grading.bo;
+package info.hccis.grading.util;
 
 
 
