@@ -11,9 +11,9 @@ import com.android.volley.toolbox.Volley;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.hccis.squash.entity.SkillsAssessmentSquashTechnical;
-import info.hccis.squash.ui.squashskillslist.SquashSkillsListFragment;
-import info.hccis.squash.ui.squashskillslist.SquashSkillsListViewModel;
+import info.hccis.grading.entity.GradingAssessmentTechnical;
+import info.hccis.grading.ui.gradinglist.GradingListFragment;
+import info.hccis.grading.ui.gradinglist.GradingListViewModel;
 
 /**
  * ApiWatcher class will be used as a background thread which will monitor the api. It will notify
@@ -46,7 +46,7 @@ public class ApiWatcher extends Thread {
         requestQueue = Volley.newRequestQueue(activity);
 
         /* Create RestHandler: pass it RequestQueue and SkillsAssessmentSquashTechnical */
-        RestHandler restHandler = new RestHandler(requestQueue, new SkillsAssessmentSquashTechnical());
+        RestHandler restHandler = new RestHandler(requestQueue, new GradingAssessmentTechnical());
 
         try {
             do {
@@ -59,18 +59,18 @@ public class ApiWatcher extends Thread {
                 //Create a list of ticket orders.
                 // Call<List<TicketOrder>> call = TicketOrderRepository.getInstance().getTicketOrderService().getTicketOrders();
 
-                SquashSkillsListViewModel squashSkillsListViewModel = new ViewModelProvider(activity).get(SquashSkillsListViewModel.class);
+                GradingListViewModel gradingListViewModel = new ViewModelProvider(activity).get(GradingListViewModel.class);
 
                 restHandler.getJsonArrayRequest(new ResponseCallBack() {
                     @Override
                     public void onSuccess() {
                         Log.d("BJM api access", "onSuccess triggered");
                         /* Both the RestHandler's server response and MainActivity are available for code execution */
-                        ArrayList<SkillsAssessmentSquashTechnical> responseList = restHandler.getSastList();
+                        ArrayList<GradingAssessmentTechnical> responseList = restHandler.getSastList();
                         Log.d("BJM got list?", "List of objects returned=" + responseList.size());
 
-                        List<SkillsAssessmentSquashTechnical> newList = responseList;
-                        List<SkillsAssessmentSquashTechnical> oldList= squashSkillsListViewModel.getSquashSkillsArrayList();
+                        List<GradingAssessmentTechnical> newList = responseList;
+                        List<GradingAssessmentTechnical> oldList= gradingListViewModel.getGradingArrayList();
 
                         //******************************************************************
                         //Note here.  The recycler view is using the ArrayList from this
@@ -81,7 +81,7 @@ public class ApiWatcher extends Thread {
 
                         if(!newList.equals(oldList)) {
                             //Note:  The following line will clear/addAll rather than change the list object.
-                            squashSkillsListViewModel.setSquashSkillsArrayList(newList);
+                            gradingListViewModel.setGradingArrayList(newList);
 
                             //**********************************************************************
                             // This method will allow a call to the runOnUiThread which will be allowed
@@ -91,7 +91,7 @@ public class ApiWatcher extends Thread {
                                 @Override
                                 public void run() {
                                     Log.d("BJM api", "trying to notify adapter that things have changed");
-                                    SquashSkillsListFragment.notifyDataChanged("Found more rows");
+                                    GradingListFragment.notifyDataChanged("Found more rows");
                                 }
                             });
                         }else{

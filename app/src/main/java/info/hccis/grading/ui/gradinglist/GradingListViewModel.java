@@ -21,7 +21,7 @@ public class GradingListViewModel extends ViewModel {
         return gradingArrayList;
     }
 
-    public void setGradingArrayList() {
+    public void setGradingArrayList(List<GradingAssessmentTechnical> newList) {
         this.gradingArrayList.clear();
         this.gradingArrayList.addAll(gradingArrayList);
     }

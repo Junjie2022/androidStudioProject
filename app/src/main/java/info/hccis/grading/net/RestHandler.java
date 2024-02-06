@@ -18,7 +18,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import info.hccis.squash.entity.SkillsAssessmentSquashTechnical;
+import info.hccis.grading.entity.GradingAssessmentTechnical;
+
 
 /**
  * Rest Api access implementation utilizing Android Volley Library
@@ -32,9 +33,9 @@ public class RestHandler {
     private String ip = "10.0.2.2"; //Anyone can access this for localhost access
     private String port = ":8082";
     //Note fake api doesn't have ending / and is port 80.
-    private String path = "/api/SkillsAssessmentService/assessments/";
-    private SkillsAssessmentSquashTechnical sast;
-    private ArrayList<SkillsAssessmentSquashTechnical> sastList;
+    private String path = "/api/GradingAssessmentService/assessments/";
+    private GradingAssessmentTechnical sast;
+    private ArrayList<GradingAssessmentTechnical> sastList;
 
     public static final String TAG = "TAG_THIS";
     private RequestQueue queue;
@@ -45,7 +46,7 @@ public class RestHandler {
         this.queue = queue;
     }
 
-    public RestHandler(RequestQueue queue, SkillsAssessmentSquashTechnical sast) {
+    public RestHandler(RequestQueue queue, GradingAssessmentTechnical sast) {
         this.sast = sast;
         this.queue = queue;
     }
@@ -69,7 +70,7 @@ public class RestHandler {
                             Gson gson = new Gson();
                             sastList = new ArrayList<>();
                             for (int currentIndex = 0; currentIndex < response.length(); currentIndex++) {
-                                SkillsAssessmentSquashTechnical current = gson.fromJson(response.getJSONObject(currentIndex).toString(), SkillsAssessmentSquashTechnical.class);
+                                GradingAssessmentTechnical current = gson.fromJson(response.getJSONObject(currentIndex).toString(), GradingAssessmentTechnical.class);
                                 System.out.println(current.toString());
                                 sastList.add(current);
                             }
@@ -144,7 +145,7 @@ public class RestHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                         Gson gson = new Gson();
-                        sast = gson.fromJson(response.toString(), SkillsAssessmentSquashTechnical.class);
+                        sast = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
                         Log.d("BJM JSONObject Response", "Response: " + response.toString());
                         callBack.onSuccess();
                     }
@@ -175,7 +176,7 @@ public class RestHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                         Gson gson = new Gson();
-                        sast = gson.fromJson(response.toString(), SkillsAssessmentSquashTechnical.class);
+                        sast = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
                         Log.d("BJM JSONObject Response", "Response: " + response.toString());
                         callBack.onSuccess();
                     }
@@ -207,7 +208,7 @@ public class RestHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                         Gson gson = new Gson();
-                        sast = gson.fromJson(response.toString(), SkillsAssessmentSquashTechnical.class);
+                        sast = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
                         Log.d("BJM postJsonRequest onResponse", "Response: " + response.toString());
                         callBack.onSuccess();
                     }
@@ -233,7 +234,7 @@ public class RestHandler {
 
 
 
-    public void postJsonRequest(SkillsAssessmentSquashTechnical sast, final ResponseCallBack callBack) {
+    public void postJsonRequest(GradingAssessmentTechnical sast, final ResponseCallBack callBack) {
 
         Gson gson = new Gson();
         try {
@@ -248,19 +249,19 @@ public class RestHandler {
     /**
      * @param sast
      */
-    public void setSast(SkillsAssessmentSquashTechnical sast) {
+    public void setSast(GradingAssessmentTechnical sast) {
         this.sast = sast;
     }
 
     /**
      * @return
      */
-    public SkillsAssessmentSquashTechnical getSast() {
+    public GradingAssessmentTechnical getSast() {
         return this.sast;
     }
 
 
-    public ArrayList<SkillsAssessmentSquashTechnical> getSastList() {
+    public ArrayList<GradingAssessmentTechnical> getSastList() {
         return this.sastList;
     }
 
@@ -269,7 +270,7 @@ public class RestHandler {
     }
 
     public JSONObject mockJsonObject() {
-        String json = "{\"id\":10,\"assessmentDate\":\"2024-01-06\",\"createdDateTime\":\"2024-01-06 01:38:48\",\"athleteName\":\"John Doe\",\"assessorName\":\"BJ MacLean\",\"forehandDrives\":11,\"backhandDrives\":5,\"forehandVolleyMax\":14,\"forehandVolleySum\":78,\"backhandVolleyMax\":6,\"backhandVolleySum\":59,\"technicalScore\":1085}";
+        String json = "{\"id\":10,\"studentName\":\"jj\",\"instructorName\":\"kk\",\"courseName\":\"CIS234\",\"courseRoom\":\"205\",\"academicYear\":1,\"numericGrade\":96,\"letterGrade\":A}";
         JSONObject request = null;
         try {
             request = new JSONObject(json);
