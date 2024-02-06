@@ -14,6 +14,7 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_gradinglist">Grading List</string>
     <string name="menu_gradingadd">Add Grading</string>
+    <string name="label_grading_assessment_date">Assessment Date</string>
     <string name="label_grading_student_name">Student Name</string>
     <string name="label_grading_instructor_name">Instructor Name</string>
     <string name="label_grading_course_name">Course Name</string>

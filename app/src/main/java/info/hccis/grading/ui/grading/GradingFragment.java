@@ -72,6 +72,7 @@ public class GradingFragment extends Fragment {
         binding.editTextAcademicYear.setText(String.valueOf(sast.getAcademicYear()));
         binding.editTextInstructorName.setText(sast.getInstructorName());
         binding.editTextCourseRoom.setText(sast.getCourseRoom());
+        binding.editTextCourseName.setText(sast.getCourseName());
         binding.editTextNumericGrade.setText(String.valueOf(sast.getNumericGrade()));
     }
 }
