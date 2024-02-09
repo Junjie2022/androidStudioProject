@@ -72,12 +72,15 @@ public class CustomerAdapterGrading extends RecyclerView.Adapter<CustomerAdapter
     public class GradingViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textViewStudentName;
+        private TextView textViewAssessmentDate;
         private TextView textViewNumericGrade;
 
         public GradingViewHolder(final View view) {
             super(view);
             textViewStudentName = view.findViewById(R.id.textViewStudentName);
+            textViewAssessmentDate = view.findViewById(R.id.textViewAssessmentDate);
             textViewNumericGrade = view.findViewById(R.id.textViewNumericGrade);
+
 
         }
     }

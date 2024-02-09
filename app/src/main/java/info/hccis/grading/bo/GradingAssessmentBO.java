@@ -42,7 +42,7 @@ public class GradingAssessmentBO {
      * @since 20240118
      */
     public static ArrayList<GradingAssessmentTechnical> getTestList() throws JSONException {
-        String jsonForAssessments = "[{\"id\":1,\"studentName\":\"Junjie\",\"instructorName\":\"BJ\",\"courseName\":\"CIS1122\" }]";
+        String jsonForAssessments = "[{\"id\":1,\"assessmentDate\":\"2022-08-22\",\"studentName\":\"Junjie\",\"instructorName\":\"BJ\",\"courseName\":\"CIS1122\" }]";
         JSONArray jsonArray = null;
         try {
             jsonArray = new JSONArray(jsonForAssessments);
@@ -56,9 +56,14 @@ public class GradingAssessmentBO {
         Gson gson = new Gson();
         ArrayList<GradingAssessmentTechnical> theList = new ArrayList<>();
         for (int currentIndex = 0; currentIndex < jsonArray.length(); currentIndex++) {
-            GradingAssessmentTechnical current = gson.fromJson(jsonArray.getJSONObject(currentIndex).toString(), GradingAssessmentTechnical.class);
+            GradingAssessmentTechnical current = null;
+            try {
+                current = gson.fromJson(jsonArray.getJSONObject(currentIndex).toString(), GradingAssessmentTechnical.class);
+            }catch(JSONException e){
+                throw new RuntimeException(e);
+            }
             theList.add(current);
-            Log.d("BJM test list", current.toString());
+            Log.d("Junjie test list", current.toString());
         }
         return theList;
     }

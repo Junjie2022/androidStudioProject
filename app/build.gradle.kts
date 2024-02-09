@@ -43,9 +43,11 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.android.volley:volley:1.2.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.room:room-runtime:2.6.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
     constraints { implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0")
     { because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib") }
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0")

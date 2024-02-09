@@ -7,13 +7,13 @@ import info.hccis.grading.entity.GradingAssessmentTechnical;
 public class GradingViewModel extends ViewModel {
 
 
-    private GradingAssessmentTechnical sast = new GradingAssessmentTechnical();
+    private GradingAssessmentTechnical gat = new GradingAssessmentTechnical();
 
-    public GradingAssessmentTechnical getSast() {
-        return sast;
+    public GradingAssessmentTechnical getGat() {
+        return gat;
     }
 
-    public void setSast(GradingAssessmentTechnical sast) {
-        this.sast = sast;
+    public void setGat(GradingAssessmentTechnical gat) {
+        this.gat = gat;
     }
 }

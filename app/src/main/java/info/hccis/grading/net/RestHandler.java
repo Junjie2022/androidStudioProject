@@ -9,7 +9,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -31,11 +30,12 @@ public class RestHandler {
     private String scheme = "http://";
     //private String ip = SECRET.IP;
     private String ip = "10.0.2.2"; //Anyone can access this for localhost access
-    private String port = ":8082";
+    private String port = ":8080";
     //Note fake api doesn't have ending / and is port 80.
     private String path = "/api/GradingAssessmentService/assessments/";
-    private GradingAssessmentTechnical sast;
-    private ArrayList<GradingAssessmentTechnical> sastList;
+    private GradingAssessmentTechnical gat;
+
+    private ArrayList<GradingAssessmentTechnical> gatList;
 
     public static final String TAG = "TAG_THIS";
     private RequestQueue queue;
@@ -46,8 +46,8 @@ public class RestHandler {
         this.queue = queue;
     }
 
-    public RestHandler(RequestQueue queue, GradingAssessmentTechnical sast) {
-        this.sast = sast;
+    public RestHandler(RequestQueue queue, GradingAssessmentTechnical gat) {
+        this.gat = gat;
         this.queue = queue;
     }
     /* get all */
@@ -68,17 +68,17 @@ public class RestHandler {
                         try {
                             System.out.println("Here are the rows");
                             Gson gson = new Gson();
-                            sastList = new ArrayList<>();
+                            gatList = new ArrayList<>();
                             for (int currentIndex = 0; currentIndex < response.length(); currentIndex++) {
                                 GradingAssessmentTechnical current = gson.fromJson(response.getJSONObject(currentIndex).toString(), GradingAssessmentTechnical.class);
                                 System.out.println(current.toString());
-                                sastList.add(current);
+                                gatList.add(current);
                             }
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
-                        Log.d("BJM JSONObject Response", "Response: " + response.toString());
-                        callBack.onSuccess();
+                        Log.d("JJ JSONObject Response", "Response: " + response.toString());
+                        callBack.onSuccess(gatList);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -91,7 +91,7 @@ public class RestHandler {
             }
         });
 
-        Log.d("BJM test Request", "Request: " + jsonArrayRequest.toString());
+        Log.d("jj test Request", "Request: " + jsonArrayRequest.toString());
         queue.add(jsonArrayRequest);
     }
 
@@ -101,34 +101,34 @@ public class RestHandler {
      *
      * @param callBack
      */
-    public void getRequest(final ResponseCallBack callBack) {
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.GET,
-                buildUrl(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            // TODO: try something with getRequest() response
-                        } catch (RuntimeException e) {
-                            throw new RuntimeException(e);
-                        }
-                        Log.d("BJM getRequest Response", "Response: " + response.toString());
-                        callBack.onSuccess();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle errors
-                        Log.d("BJM test Error", "Error: " + error.toString());
-                    }
-                });
-        Log.d("BJM test Request", "Request: " + stringRequest.toString());
-        stringRequest.setTag(TAG);
-        queue.add(stringRequest);
-    }
+//    public void getRequest(final ResponseCallBack callBack) {
+//        // Request a string response from the provided URL.
+//        StringRequest stringRequest = new StringRequest(
+//                Request.Method.GET,
+//                buildUrl(),
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            // TODO: try something with getRequest() response
+//                        } catch (RuntimeException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                        Log.d("BJM getRequest Response", "Response: " + response.toString());
+//                        callBack.onSuccess();
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // TODO: Handle errors
+//                        Log.d("BJM test Error", "Error: " + error.toString());
+//                    }
+//                });
+//        Log.d("BJM test Request", "Request: " + stringRequest.toString());
+//        stringRequest.setTag(TAG);
+//        queue.add(stringRequest);
+//    }
 
     /**
      * Contrived Example of a GET api call that populates UI with server response data
@@ -145,15 +145,15 @@ public class RestHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                         Gson gson = new Gson();
-                        sast = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
-                        Log.d("BJM JSONObject Response", "Response: " + response.toString());
-                        callBack.onSuccess();
+                        gat = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
+                        Log.d("JJ JSONObject Response", "Response: " + response.toString());
+                        callBack.onSuccess(gat);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // TODO: Handle error
-                Log.d("BJM test Error", "Error: " + error.toString());
+                Log.d("JJ test Error", "Error: " + error.toString());
             }
         });
         Log.d("BJM test Request", "Request: " + jsonObjectRequest);
@@ -176,18 +176,18 @@ public class RestHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                         Gson gson = new Gson();
-                        sast = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
+                        gat = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
                         Log.d("BJM JSONObject Response", "Response: " + response.toString());
-                        callBack.onSuccess();
+                        callBack.onSuccess(gat);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // TODO: Handle error
-                Log.d("BJM test Error", "Error: " + error.toString());
+                Log.d("JJ test Error", "Error: " + error.toString());
             }
         });
-        Log.d("BJM test Request", "Request: " + jsonObjectRequest);
+        Log.d("JJ test Request", "Request: " + jsonObjectRequest);
         jsonObjectRequest.setTag(TAG);
         queue.add(jsonObjectRequest);
     }
@@ -208,15 +208,16 @@ public class RestHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                         Gson gson = new Gson();
-                        sast = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
+                        gat = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
                         Log.d("BJM postJsonRequest onResponse", "Response: " + response.toString());
-                        callBack.onSuccess();
+                        callBack.onSuccess(gat);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // TODO: Handle error
                 Log.d("BJM postJsonRequest onErrorResponse", "Error: " + error.toString());
+                callBack.onError();
             }
         });
         Log.d("BJM postJsonRequest end", "Request: " + jsonObjectRequest);
@@ -225,20 +226,11 @@ public class RestHandler {
     }
 
 
-
-
-
-
-
-
-
-
-
-    public void postJsonRequest(GradingAssessmentTechnical sast, final ResponseCallBack callBack) {
+    public void postJsonRequest(GradingAssessmentTechnical gat, final ResponseCallBack callBack) {
 
         Gson gson = new Gson();
         try {
-            postJsonRequest(new JSONObject(gson.toJson(sast)),callBack);
+            postJsonRequest(new JSONObject(gson.toJson(gat)),callBack);
         } catch (JSONException e) {
             Log.d("BJM posting sast","Error posting sast using rest.");
             throw new RuntimeException(e);
@@ -247,22 +239,22 @@ public class RestHandler {
 
 
     /**
-     * @param sast
+     * @param gat
      */
-    public void setSast(GradingAssessmentTechnical sast) {
-        this.sast = sast;
+    public void setGat(GradingAssessmentTechnical gat) {
+        this.gat = gat;
     }
 
     /**
      * @return
      */
-    public GradingAssessmentTechnical getSast() {
-        return this.sast;
+    public GradingAssessmentTechnical getGat() {
+        return this.gat;
     }
 
 
-    public ArrayList<GradingAssessmentTechnical> getSastList() {
-        return this.sastList;
+    public ArrayList<GradingAssessmentTechnical> getGatList() {
+        return this.gatList;
     }
 
     public String buildUrl() {
@@ -270,7 +262,7 @@ public class RestHandler {
     }
 
     public JSONObject mockJsonObject() {
-        String json = "{\"id\":10,\"studentName\":\"jj\",\"instructorName\":\"kk\",\"courseName\":\"CIS234\",\"courseRoom\":\"205\",\"academicYear\":1,\"numericGrade\":96,\"letterGrade\":A}";
+        String json = "{\"id\":10,\"assessmentDate\":\"2024-01-06\"\"studentName\":\"jj\",\"instructorName\":\"kk\",\"courseName\":\"CIS234\",\"courseRoom\":\"205\",\"academicYear\":1,\"numericGrade\":96,\"letterGrade\":A}";
         JSONObject request = null;
         try {
             request = new JSONObject(json);

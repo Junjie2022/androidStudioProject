@@ -35,7 +35,7 @@ public class GradingFragment extends Fragment {
         View view = binding.getRoot();
 
         gradingViewModel = new ViewModelProvider(this.getActivity()).get(GradingViewModel.class);
-        GradingAssessmentTechnical sast = gradingViewModel.getSast();
+        GradingAssessmentTechnical sast = gradingViewModel.getGat();
         setTestValues(sast);
 
         binding.buttonSubmitGrading.setOnClickListener(new View.OnClickListener() {
@@ -44,21 +44,22 @@ public class GradingFragment extends Fragment {
             public void onClick(View v) {
                 Log.d("JJ TEST", "Student name entered = " + binding.editTextStudentName.getText().toString());
 
-                GradingAssessmentTechnical sast = gradingViewModel.getSast();
+                GradingAssessmentTechnical gat = gradingViewModel.getGat();
 
-                sast.setStudentName(binding.editTextStudentName.getText().toString());
-                sast.setAcademicYear(Integer.valueOf(binding.editTextAcademicYear.getText().toString()));
-                sast.setCourseName(binding.editTextCourseName.getText().toString());
-                sast.setInstructorName(binding.editTextInstructorName.getText().toString());
-                sast.setCourseRoom(binding.editTextCourseRoom.getText().toString());
-                sast.setNumericGrade(Double.valueOf(binding.editTextNumericGrade.getText().toString()));
+                gat.setStudentName(binding.editTextStudentName.getText().toString());
+                gat.setAcademicYear(Integer.valueOf(binding.editTextAcademicYear.getText().toString()));
+                gat.setCourseName(binding.editTextCourseName.getText().toString());
+                gat.setInstructorName(binding.editTextInstructorName.getText().toString());
+                gat.setCourseRoom(binding.editTextCourseRoom.getText().toString());
+                gat.setNumericGrade(Double.valueOf(binding.editTextNumericGrade.getText().toString()));
 
-                String letterGrade = GradingAssessmentBO.calculateLetterGrade(sast);
+                String letterGrade = GradingAssessmentBO.calculateLetterGrade(gat);
+
 
                 // Update the textViewGradingSummary with the letter grade
                 binding.textViewGradingSummary.setText("LetterGrade is: "+letterGrade);
 
-                CisUtility.writeToFile(getActivity(), "Assessments.txt", sast.toString() + System.lineSeparator());
+                CisUtility.writeToFile(getActivity(), "Assessments.txt", gat.toString() + System.lineSeparator());
                 String allAssessments = CisUtility.readFromFile(getActivity(), "Assessments.txt");
                 Log.d("BJM read from file", allAssessments);
             }
@@ -67,12 +68,13 @@ public class GradingFragment extends Fragment {
         return view;
     }
 
-    public void setTestValues(GradingAssessmentTechnical sast) {
-        binding.editTextStudentName.setText(sast.getStudentName());
-        binding.editTextAcademicYear.setText(String.valueOf(sast.getAcademicYear()));
-        binding.editTextInstructorName.setText(sast.getInstructorName());
-        binding.editTextCourseRoom.setText(sast.getCourseRoom());
-        binding.editTextCourseName.setText(sast.getCourseName());
-        binding.editTextNumericGrade.setText(String.valueOf(sast.getNumericGrade()));
+    public void setTestValues(GradingAssessmentTechnical gat) {
+
+        binding.editTextStudentName.setText(gat.getStudentName());
+        binding.editTextAcademicYear.setText(String.valueOf(gat.getAcademicYear()));
+        binding.editTextInstructorName.setText(gat.getInstructorName());
+        binding.editTextCourseRoom.setText(gat.getCourseRoom());
+        binding.editTextCourseName.setText(gat.getCourseName());
+        binding.editTextNumericGrade.setText(String.valueOf(gat.getNumericGrade()));
     }
 }

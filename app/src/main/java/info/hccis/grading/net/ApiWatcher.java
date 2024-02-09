@@ -1,5 +1,7 @@
 package info.hccis.grading.net;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
@@ -10,7 +12,8 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import info.hccis.grading.R;
+import info.hccis.grading.entity.GradingAssessmentContent;
 import info.hccis.grading.entity.GradingAssessmentTechnical;
 import info.hccis.grading.ui.gradinglist.GradingListFragment;
 import info.hccis.grading.ui.gradinglist.GradingListViewModel;
@@ -27,13 +30,15 @@ public class ApiWatcher extends Thread {
 
     private int lengthLastCall = -1;  //Number of rows returned
     private static int sleepTime = 10000;
-    public static void setSleepTime(int milliSeconds){
+
+    public static void setSleepTime(int milliSeconds) {
         sleepTime = milliSeconds;
     }
 
     //The activity is passed in to allow the runOnUIThread to be used.
     private FragmentActivity activity = null;
     private RequestQueue requestQueue;
+
     public ApiWatcher(FragmentActivity activity) {
         this.activity = activity;
     }
@@ -63,14 +68,14 @@ public class ApiWatcher extends Thread {
 
                 restHandler.getJsonArrayRequest(new ResponseCallBack() {
                     @Override
-                    public void onSuccess() {
-                        Log.d("BJM api access", "onSuccess triggered");
+                    public void onSuccess(Object object) {
+                        Log.d("jj api access", "onSuccess triggered");
                         /* Both the RestHandler's server response and MainActivity are available for code execution */
-                        ArrayList<GradingAssessmentTechnical> responseList = restHandler.getSastList();
-                        Log.d("BJM got list?", "List of objects returned=" + responseList.size());
+                        ArrayList<GradingAssessmentTechnical> responseList = (ArrayList<GradingAssessmentTechnical>) object;
+                        Log.d("jj got list?", "List of objects returned=" + responseList.size());
 
                         List<GradingAssessmentTechnical> newList = responseList;
-                        List<GradingAssessmentTechnical> oldList= gradingListViewModel.getGradingArrayList();
+                        List<GradingAssessmentTechnical> oldList = gradingListViewModel.getGradingArrayList();
 
                         //******************************************************************
                         //Note here.  The recycler view is using the ArrayList from this
@@ -79,32 +84,46 @@ public class ApiWatcher extends Thread {
                         //recyclerview that things have changed.
                         //******************************************************************
 
-                        if(!newList.equals(oldList)) {
+                        if (!newList.equals(oldList)) {
                             //Note:  The following line will clear/addAll rather than change the list object.
                             gradingListViewModel.setGradingArrayList(newList);
+
+                            //******************************************************************
+                            //Save latest orders in the database.
+                            //******************************************************************
+                            GradingAssessmentContent.reloadGradingAssessmentsInRoom(newList);
 
                             //**********************************************************************
                             // This method will allow a call to the runOnUiThread which will be allowed
                             // to interact with the ui components of the app.
                             //**********************************************************************
+
+
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.d("BJM api", "trying to notify adapter that things have changed");
+                                    Log.d("JJ api", "trying to notify adapter that things have changed");
                                     GradingListFragment.notifyDataChanged("Found more rows");
                                 }
                             });
-                        }else{
-                            Log.d("BJM checked api","List from api is not changed.");
+                        } else {
+                            Log.d("JJ checked api", "List from api is not changed.");
                         }
 
                     }
 
                     @Override
                     public void onError() {
-                        Log.d("BJM ApiWatcher","onError calling api triggered");
+                        Log.d("BJM ApiWatcher", "onError calling api triggered");
                         //Was not able to obtain data from the api.  In the future will
                         //load from Room database if desired.
+                        //******************************************************************************************
+                        // Using the default shared preferences.  Using the application context - may want to access the
+                        // shared prefs from other activities.
+                        //******************************************************************************************
+
+                        loadFromRoomIfPreferred(gradingListViewModel);
+                        lengthLastCall = -1; //Indicate couldn't load from api will trigger reload next time
                     }
                 });
 
@@ -136,45 +155,53 @@ public class ApiWatcher extends Thread {
 
             } while (true);
         } catch (Exception e) {
-            Log.d("BJM api", "Thread interrupted.  Stopping in the thread.");
+            Log.d("jj api", "Thread interrupted.  Stopping in the thread.");
         }
 
     }
 
 
 //FUTURE USE
+
     /**
      * Check the shared preferences and load from the db if the setting is set to do such a thing.
-     * @param ticketOrderViewModel
-     * @since 20220211
+     *
+     * @param gradingListViewModel
      * @author BJM
+     * @since 20220211
      */
-//    public void loadFromRoomIfPreferred(TicketOrderViewModel ticketOrderViewModel) {
-//        Log.d("BJM room","Check to see if should load from room");
-//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
-//        boolean loadFromRoom = sharedPref.getBoolean(activity.getString(R.string.preference_load_from_room), true);
-//        Log.d("BJM room","Load from Room="+loadFromRoom);
-//        if (loadFromRoom) {
-//            List<TicketOrder> testList = TicketOrderContent.getTicketOrdersFromRoom();
-//            Log.d("BJM room","Obtained ticket orders from the db: "+testList.size());
-//            ticketOrderViewModel.setTicketOrders(testList); //Will add all ticket orders
-//
+    public void loadFromRoomIfPreferred(GradingListViewModel gradingListViewModel) {
+        Log.d("BJM room", "Check to see if should load from room");
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+
+        boolean loadFromRoom = sharedPref.getBoolean(activity.getString(R.string.preference_load_from_room), true);
+
+        Log.d("JJ room", "Load from Room=" + loadFromRoom);
+        if (loadFromRoom) {
+            ArrayList oldList = new ArrayList();
+            oldList.addAll(gradingListViewModel.getGradingArrayList());
+
+            List<GradingAssessmentTechnical> listFromRoom = GradingAssessmentContent.getGradingAssessmentsFromRoom();
+            Log.d("jj room", "Obtained ticket orders from the db: " + listFromRoom.size());
+            if (!oldList.equals(listFromRoom)) {
+                gradingListViewModel.setGradingArrayList(listFromRoom); //Will add all ticket orders
 //            //**********************************************************************
 //            // This method will allow a call to the runOnUiThread which will be allowed
 //            // to interact with the ui components of the app.
 //            //**********************************************************************
-//            activity.runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Log.d("bjm api", "trying to notify adapter that things have changed");
-//                    TicketOrdersFragment.notifyDataChanged("Found more rows");
-//                }
-//
-//            });
-//
-//        }
-//    }
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("JJ api", "trying to notify adapter that things have changed");
+                        GradingListFragment.notifyDataChanged("Found more rows");
+                    }
+
+                });
+
+            }
+        }
 
 
+    }
 }
 

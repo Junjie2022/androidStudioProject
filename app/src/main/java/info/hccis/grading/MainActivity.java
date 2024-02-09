@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("BJM FAB clicked-", "Send user to add squash skills");
-                gradingViewModel.setSast(new GradingAssessmentTechnical());
+                gradingViewModel.setGat(new GradingAssessmentTechnical());
                 navController.navigate(R.id.nav_grading);
 
 

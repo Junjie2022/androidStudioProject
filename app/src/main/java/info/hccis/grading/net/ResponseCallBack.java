@@ -6,7 +6,7 @@ package info.hccis.grading.net;
  * @since Jan 22, 2024
  */
 public interface ResponseCallBack {
-    void onSuccess();
+    void onSuccess(Object object);
     void onError();
 
 }

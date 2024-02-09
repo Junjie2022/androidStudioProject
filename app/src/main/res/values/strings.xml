@@ -23,8 +23,9 @@
     <string name="label_grading_letter_grade">Letter Grade</string>
     <string name="label_grading_academic_year">Academic Year</string>
     <string name="menu_submit">Submit</string>
+    <string name="label_developer">Junjie Wang</string>
 
-
+    <string name="preference_load_from_room">loadFromRoom</string>
 
 
 </resources>

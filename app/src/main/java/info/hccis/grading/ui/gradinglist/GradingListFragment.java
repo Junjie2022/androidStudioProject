@@ -111,7 +111,7 @@ public class GradingListFragment extends Fragment implements CustomerAdapterGrad
 
         gradingViewModel = new ViewModelProvider(this.getActivity()).get(GradingViewModel.class);
         gradingListViewModel = new ViewModelProvider(this.getActivity()).get(GradingListViewModel.class);
-        GradingAssessmentTechnical sast = gradingViewModel.getSast();
+        GradingAssessmentTechnical gat = gradingViewModel.getGat();
         gradingArrayList = gradingListViewModel.getGradingArrayList();
 
 
@@ -148,12 +148,12 @@ public class GradingListFragment extends Fragment implements CustomerAdapterGrad
     }
 
     @Override
-    public void onGradingAssessmentClick(GradingAssessmentTechnical sast) {
-        Log.d("BJM row clicked","Clicked a row for student name = "+sast.getStudentName());
-        Log.d("BJM row clicked","Clicked a row for numeric grade = "+sast.getNumericGrade());
-        Log.d("BJM row clicked","Clicked a row for letter grade = "+sast.getLetterGrade());
+    public void onGradingAssessmentClick(GradingAssessmentTechnical gat) {
+        Log.d("BJM row clicked","Clicked a row for student name = "+gat.getStudentName());
+        Log.d("BJM row clicked","Clicked a row for numeric grade = "+gat.getNumericGrade());
+        Log.d("BJM row clicked","Clicked a row for letter grade = "+gat.getLetterGrade());
 
-        gradingViewModel.setSast(sast);
+        gradingViewModel.setGat(gat);
         NavHostFragment.findNavController(GradingListFragment.this)
                 .navigate(R.id.nav_grading);
 

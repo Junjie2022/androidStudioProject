@@ -1,9 +1,15 @@
 package info.hccis.grading.entity;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 import java.io.Serializable;
+
+@Entity(tableName="GradingAssessmentTechnical")
 public class GradingAssessmentTechnical implements Serializable {
     private static final long serialVersionUID = 1L;
+    @PrimaryKey(autoGenerate = true)
     private Integer id;
 
+    private String assessmentDate;
     private String studentName;
 
     private String instructorName;
@@ -29,8 +35,9 @@ public class GradingAssessmentTechnical implements Serializable {
         this.id = id;
     }
 
-    public GradingAssessmentTechnical(Integer id, String studentName, String instructorName, String courseName, String courseRoom) {
+    public GradingAssessmentTechnical(Integer id, String assessmentDate,String studentName, String instructorName, String courseName, String courseRoom) {
         this.id = id;
+        this.assessmentDate = assessmentDate;
         this.studentName = studentName;
         this.instructorName = instructorName;
         this.courseName = courseName;
@@ -43,6 +50,13 @@ public class GradingAssessmentTechnical implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    public String getAssessmentDate() {
+        return assessmentDate;
+    }
+
+    public void setAssessmentDate(String assessmentDate) {
+        this.assessmentDate = assessmentDate;
     }
 
     public String getStudentName() {
@@ -85,6 +99,13 @@ public class GradingAssessmentTechnical implements Serializable {
         this.numericGrade = numericGrade;
     }
 
+    public Integer getAcademicYear() {
+        return academicYear;
+    }
+
+    public void setAcademicYear(Integer academicYear) {
+        this.academicYear = academicYear;
+    }
     public String getLetterGrade() {
         return letterGrade;
     }
@@ -93,38 +114,31 @@ public class GradingAssessmentTechnical implements Serializable {
         this.letterGrade = letterGrade;
     }
 
-    public Integer getAcademicYear() {
-        return academicYear;
-    }
+//    @Override
+//    public int hashCode() {
+//        int hash = 0;
+//        hash += (id != null ? id.hashCode() : 0);
+//        return hash;
+//    }
 
-    public void setAcademicYear(Integer academicYear) {
-        this.academicYear = academicYear;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof GradingAssessmentTechnical)) {
-            return false;
-        }
-        GradingAssessmentTechnical other = (GradingAssessmentTechnical) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceof GradingAssessmentTechnical)) {
+//            return false;
+//        }
+//        GradingAssessmentTechnical other = (GradingAssessmentTechnical) object;
+//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Override
     public String toString() {
 
         String output="--Assessment Details--" +
+                " \nAssessmentDate: " + getAssessmentDate()+
                 " \nStudentName: " + getStudentName()+
                 " \n CourseName: " + getCourseName() +
                 " \n CourseRoom: " + getCourseRoom() +
