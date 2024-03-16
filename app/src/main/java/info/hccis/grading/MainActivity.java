@@ -25,7 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+import info.hccis.grading.broadcast.receiver.AirplaneModeReceiver;
 import info.hccis.grading.databinding.ActivityMainBinding;
+import info.hccis.grading.entity.GradingAssessmentContent;
 import info.hccis.grading.entity.GradingAssessmentTechnical;
 import info.hccis.grading.ui.grading.GradingViewModel;
 import info.hccis.grading.ui.gradinglist.GradingListViewModel;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean keep = true;
     private final int DELAY = 2000;
 
+    private AirplaneModeReceiver airplaneModeReceiver = new AirplaneModeReceiver();// Instantiate the BroadcastReceiver
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
@@ -77,12 +80,22 @@ public class MainActivity extends AppCompatActivity {
 
         handler.postDelayed(runner, DELAY);
 
-        Log.d("BJM Lifecycle", "onCreate of activity running");
+        //***********************************************************************************
+        //Setup the myAppDatabase
+        //Once this is set in the class it can be used throughout the app
+        //**
+        GradingAssessmentContent.setMyAppDatabase(getApplicationContext());
+
+        Log.d("JJ Lifecycle", "onCreate of activity running");
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.appBarMain.toolbar);
+        try {
+            setSupportActionBar(binding.appBarMain.toolbar);
+        }catch (Exception e){
+            Log.d("JJ MainActivity","Error setting support action bar");
+        }
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -117,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("BJM FAB clicked-", "Send user to add squash skills");
+                Log.d("JJ FAB clicked-", "Send user to add squash skills");
                 gradingViewModel.setGat(new GradingAssessmentTechnical());
                 navController.navigate(R.id.nav_grading);
 
@@ -145,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 //                        navController.navigate(R.id.nav_squashskills);
 //                    }
 //                });
-                Log.d("BJM FAB clicked", "finished fab onclick method");
+                Log.d("JJ FAB clicked", "finished fab onclick method");
             }
         });
 

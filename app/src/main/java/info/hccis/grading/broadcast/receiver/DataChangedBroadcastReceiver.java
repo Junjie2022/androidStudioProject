@@ -1,4 +1,4 @@
-package info.hccis.squash.broadcast.receiver;
+package info.hccis.grading.broadcast.receiver;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,7 @@ public class DataChangedBroadcastReceiver extends android.content.BroadcastRecei
     public void onReceive(Context context, Intent intent) {
         // Handle the broadcast event
         Log.d("TestBroadcastReceiver", "Broadcast received (data changed)");
-        String message = "Skills assessment data changed.";
+        String message = "Grading assessment data changed.";
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }

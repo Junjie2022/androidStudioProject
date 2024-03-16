@@ -29,13 +29,17 @@ import info.hccis.grading.ui.gradinglist.GradingListViewModel;
 public class ApiWatcher extends Thread {
 
     private int lengthLastCall = -1;  //Number of rows returned
-    private static int sleepTime = 10000;
+    public static final int CONNECTED_SLEEP_TIME = 10000;
+    public static final int NOT_CONNECTED_SLEEP_TIME = 30000;
+    private static int sleepTime = CONNECTED_SLEEP_TIME;
 
     public static void setSleepTime(int milliSeconds) {
         sleepTime = milliSeconds;
     }
 
     //The activity is passed in to allow the runOnUIThread to be used.
+
+    private static boolean currentlyConnected = true;
     private FragmentActivity activity = null;
     private RequestQueue requestQueue;
 
@@ -203,5 +207,37 @@ public class ApiWatcher extends Thread {
 
 
     }
+
+
+    /**
+     * Set flag indicating connectivity.
+     *
+     * @param connected
+     * @return connectivity changed boolean
+     * @author BJM
+     * @since 20240213
+     */
+    public static boolean setConnectedToNetwork(boolean connected) {
+
+        if (currentlyConnected == connected) {
+            return false;
+        } else {
+            //connectivity changed.
+            Log.d("BJM ApiWatcher","Connectivity to the network has changed to "+connected+".");
+            currentlyConnected = connected;
+            if (connected) {
+                setSleepTime(CONNECTED_SLEEP_TIME);
+            } else {
+                setSleepTime(NOT_CONNECTED_SLEEP_TIME);
+            }
+            return true;
+        }
+    }
+
+    public static boolean getConnectedToNetwork() {
+        return currentlyConnected;
+    }
+
+
 }
 

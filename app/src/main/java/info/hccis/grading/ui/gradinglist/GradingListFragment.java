@@ -101,7 +101,7 @@ public class GradingListFragment extends Fragment implements CustomerAdapterGrad
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final GradingListFragment squashSkillsListFragment = GradingListFragment.this;
+        final GradingListFragment gradingListFragment = GradingListFragment.this;
 
         //************************************************************************************
         // Set the view model.  This can be used to share data between fragments.

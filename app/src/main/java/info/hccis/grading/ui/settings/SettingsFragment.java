@@ -1,4 +1,4 @@
-package info.hccis.squash.ui.settings;
+package info.hccis.grading.ui.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,8 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import info.hccis.squash.R;
-import info.hccis.squash.databinding.FragmentSettingsBinding;
+import info.hccis.grading.R;
+import info.hccis.grading.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
 

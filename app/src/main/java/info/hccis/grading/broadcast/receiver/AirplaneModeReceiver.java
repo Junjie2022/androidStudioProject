@@ -1,4 +1,4 @@
-package info.hccis.squash.broadcast.receiver;
+package info.hccis.grading.broadcast.receiver;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,25 +7,25 @@ import android.util.Log;
 import android.widget.Toast;
 import android.provider.Settings;
 
-import info.hccis.squash.net.ApiWatcher;
+import info.hccis.grading.net.ApiWatcher;
 
 public class AirplaneModeReceiver extends android.content.BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // Handle the broadcast event
-        Log.d("BJM Receiver", "AirplaneModeReceiver - onReceive - Broadcast received");
+        Log.d("JJ Receiver", "AirplaneModeReceiver - onReceive - Broadcast received");
         if (isAirplaneModeOn(context.getApplicationContext())) {
             // Airplane mode is ON
             Log.d("BJM Receiver", "Airplane mode is ON");
             //ApiWatcher.setConnectedToNetwork(true); //todo Fix connected to network issue.
-            showToast(context, "Squash3 - Airplane mode is ON");
+            showToast(context, "Grading3 - Airplane mode is ON");
 
         } else {
             // Airplane mode is OFF
             ApiWatcher.setConnectedToNetwork(true);
             //Log.d("BJM Receiver", "Airplane mode is OFF"); //todo Fix connected to network issue
-            showToast(context, "Squash3 - Airplane mode is OFF");
+            showToast(context, "Grading3 - Airplane mode is OFF");
         }
     }
 

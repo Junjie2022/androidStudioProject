@@ -1,4 +1,4 @@
-package info.hccis.squash.firebase;
+package info.hccis.grading.firebase;
 
 import android.util.Log;
 import android.widget.Toast;
@@ -13,10 +13,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import info.hccis.squash.entity.SkillsAssessmentSquashTechnical;
+import info.hccis.grading.entity.GradingAssessmentTechnical;
 
 public class FirebaseFirestoreRepository {
-    public static final String TAG = "BJM FirebaseFirestoreRepository";
+    public static final String TAG = "JJ FirebaseFirestoreRepository";
     private FirebaseFirestore db;
     private static FirebaseFirestoreRepository fbfsr;
 
@@ -31,9 +31,9 @@ public class FirebaseFirestoreRepository {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void add(ArrayList<SkillsAssessmentSquashTechnical> skillsAssessmentSquashTechnicalList) {
-        HashMap<String, SkillsAssessmentSquashTechnical> map = new HashMap();
-        for (SkillsAssessmentSquashTechnical current : skillsAssessmentSquashTechnicalList) {
+    public void add(ArrayList<GradingAssessmentTechnical> skillsAssessmentSquashTechnicalList) {
+        HashMap<String, GradingAssessmentTechnical> map = new HashMap();
+        for (GradingAssessmentTechnical current : skillsAssessmentSquashTechnicalList) {
             map.put("" + current.getId(), current);
         }
 

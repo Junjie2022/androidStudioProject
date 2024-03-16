@@ -1,4 +1,4 @@
-package info.hccis.squash.service;
+package info.hccis.grading.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,7 +6,7 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.util.Log;
 
-import info.hccis.squash.R;
+import info.hccis.grading.R;
 
 public class BackgroundMusicService extends Service {
     private static final String TAG = "BackgroundMusicService";

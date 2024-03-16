@@ -16,7 +16,7 @@ import java.util.List;
 
 import info.hccis.grading.entity.GradingAssessmentTechnical;
 import info.hccis.grading.R;
-import info.hccis.grading.entity.GradingAssessmentTechnical;
+
 
 public class CustomerAdapterGrading extends RecyclerView.Adapter<CustomerAdapterGrading.GradingViewHolder> {
 
@@ -42,6 +42,7 @@ public class CustomerAdapterGrading extends RecyclerView.Adapter<CustomerAdapter
     public void onBindViewHolder(@NonNull GradingViewHolder holder, int position) {
 
         String StudentName = "" + gradingAssessmentArrayList.get(position).getStudentName();
+        String assessmentDate = ""+gradingAssessmentArrayList.get(position).getAssessmentDate();
         String NumericGrade = ""+gradingAssessmentArrayList.get(position).getNumericGrade();
 
         //Can access the overall row using holder.itemView
@@ -52,11 +53,12 @@ public class CustomerAdapterGrading extends RecyclerView.Adapter<CustomerAdapter
         }
 
         holder.textViewStudentName.setText(StudentName);
-        holder.textViewNumericGrade.setText(NumericGrade);
+        holder.textViewAssessmentDate.setText(assessmentDate);
+        holder.textViewNumericGrade.setText(""+NumericGrade);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("bjtest", "row was clicked");
+                Log.d("JJtest", "row was clicked");
                 gradingAssessmentListener.onGradingAssessmentClick(gradingAssessmentArrayList.get(holder.getAdapterPosition()));
 
             }
@@ -94,6 +96,6 @@ public class CustomerAdapterGrading extends RecyclerView.Adapter<CustomerAdapter
      * @since 20220628
      */
     public interface GradingAssessmentChosenListener {
-        void onGradingAssessmentClick(GradingAssessmentTechnical sast);
+        void onGradingAssessmentClick(GradingAssessmentTechnical gat);
     }
 }

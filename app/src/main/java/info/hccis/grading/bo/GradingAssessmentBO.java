@@ -14,19 +14,19 @@ public class GradingAssessmentBO {
     /**
      * calculate and set the technical score in the sast passed in
      *
-     * @param sast
+     * @param gat
      * @return technical grading
      * @author Junjie
      * @since 20231026
      */
-    public static String calculateLetterGrade(GradingAssessmentTechnical sast) {
-        if (sast.getNumericGrade() >= 90) {
+    public static String calculateLetterGrade(GradingAssessmentTechnical gat) {
+        if (gat.getNumericGrade() >= 90) {
             return "A";
-        } else if (sast.getNumericGrade() >= 80) {
+        } else if (gat.getNumericGrade() >= 80) {
             return "B";
-        } else if (sast.getNumericGrade() >= 70) {
+        } else if (gat.getNumericGrade() >= 70) {
             return "C";
-        } else if (sast.getNumericGrade() >= 60) {
+        } else if (gat.getNumericGrade() >= 60) {
             return "D";
         } else {
             return "F";

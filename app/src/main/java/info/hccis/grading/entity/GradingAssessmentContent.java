@@ -111,27 +111,27 @@ public class GradingAssessmentContent {
     private static MyAppDatabase myAppDatabase;
 
     /**
-     * 提供用于在整个应用程序中使用的数据库的getter。
+     * Provide a getter for the database to be used throughout the app.
      * @since 20230209
-     * @author BJM
+     * @author JJ
      */
     public static MyAppDatabase getMyAppDatabase() {
         return myAppDatabase;
     }
 
     /**
-     * 这个方法将设置用于在此应用程序中使用的数据库属性
+     *his method will setup the database attribute to be used in this ap
      * @since 20230209
-     * @author BJM
+     * @author JJ
      * @param context
      */
     public static void setMyAppDatabase(Context context){
         //****************************************************************************************
         //设置数据库属性（Room数据库）
         //****************************************************************************************
-        if (myAppDatabase == null) {
+
             myAppDatabase = Room.databaseBuilder(context, MyAppDatabase.class, "gradingassessmentdb").allowMainThreadQueries().build();
-        }
+
     }
 
     /**
@@ -142,36 +142,32 @@ public class GradingAssessmentContent {
      */
     public static void reloadGradingAssessmentsInRoom(List<GradingAssessmentTechnical> gradingAssessments)
     {
-        //检查myAppDatabase对象是否为空
-        if (myAppDatabase == null) {
-            Log.e("GradingAssessmentContent", "MyAppDatabase 对象为空，无法重新加载评估。");
-            return;
-        }
-
         //删除所有条目
-        myAppDatabase.gradingAssessmentDAO().deleteAll();
+        getMyAppDatabase().gradingAssessmentDAO().deleteAll();
 
         //循环并插入每个条目。
         for(GradingAssessmentTechnical current : gradingAssessments)
         {
-            myAppDatabase.gradingAssessmentDAO().insert(current);
+            getMyAppDatabase().gradingAssessmentDAO().insert(current);
         }
 
-        Log.d("BJM Room","加载技能评估到Room中（加载了" + gradingAssessments.size() + "个）");
+        Log.d("JJ Room","loading skills assessments into Room ("+gradingAssessments.size()+" loaded");
     }
 
     /**
-     * 从Room数据库中获取所有实体。
-     * @return 实体列表
-     * @since 20240208
-     * @author BJM
+     * /**
+     *      * This method will take the list passed in and reload the room database
+     *      * based on the items in the list.
+     *      * @param gradingAssessments
+     *      * @since 20220210
+     *      * @author JJ
      */
     public static List<GradingAssessmentTechnical> getGradingAssessmentsFromRoom()
     {
-        Log.d("JJ Room","从Room中加载评估订单");
+        Log.d("JJ Room","Loading ticket orders from Room");
 
         List<GradingAssessmentTechnical> entitiesBack = myAppDatabase.gradingAssessmentDAO().selectAll();
-        Log.d("JJ Room","从Room中加载的实体数量: " + entitiesBack.size());
+        Log.d("JJ Room","Number of entities loaded from Room: " + entitiesBack.size());
         for(GradingAssessmentTechnical current : entitiesBack)
         {
             Log.d("JJ Room",current.toString());
