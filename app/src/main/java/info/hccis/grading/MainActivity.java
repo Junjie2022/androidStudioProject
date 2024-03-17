@@ -1,18 +1,25 @@
 package info.hccis.grading;
 
 import android.app.Activity;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.Wearable;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-
+import androidx.core.splashscreen.SplashScreen;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -31,26 +38,11 @@ import info.hccis.grading.entity.GradingAssessmentContent;
 import info.hccis.grading.entity.GradingAssessmentTechnical;
 import info.hccis.grading.ui.grading.GradingViewModel;
 import info.hccis.grading.ui.gradinglist.GradingListViewModel;
-import androidx.core.splashscreen.SplashScreen;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
-import info.hccis.grading.databinding.ActivityMainBinding;
-import info.hccis.grading.entity.GradingAssessmentTechnical;
 import info.hccis.grading.net.ApiWatcher;
-import info.hccis.grading.net.ResponseCallBack;
 import info.hccis.grading.net.RestHandler;
-import info.hccis.grading.ui.grading.GradingViewModel;
-import info.hccis.grading.ui.gradinglist.GradingListViewModel;
+import info.hccis.grading.util.CisUtility;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private final int DELAY = 2000;
 
     private AirplaneModeReceiver airplaneModeReceiver = new AirplaneModeReceiver();// Instantiate the BroadcastReceiver
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
@@ -90,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //***********************************************************************************
+        //JJ 20240227
+        //Catching exception which is thrown when running on Api 31 (Pixel 7).  This does not
+        //happen when using api 25 (Bluestacks).
+        //*********************************
 
         try {
             setSupportActionBar(binding.appBarMain.toolbar);
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
-            Log.d("MainActivity BJM", "Option selected About");
+            Log.d("MainActivity JJ", "Option selected About");
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
             navController.navigate(R.id.nav_about);
             //**************************************************************************************
@@ -191,13 +190,17 @@ public class MainActivity extends AppCompatActivity {
             //a top level destination and causes issues if used for top level / non top level navigation.
             //***************************************************************************************
             return true;
+        } else if (id == R.id.action_settings) {
+            Log.d("MainActivity JJ", "Option selected About");
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        navController.navigate(R.id.nav_settings);
+        //**************************************************************************************
+        //todo 20230210 Review that the navController as wetup above will send the user to a
+        //non top level destination.  Note that this syntax does not work to send the user to
+        //a top level destination and causes issues if used for top level / non top level navigation.
+        //***************************************************************************************
+        return true;
         }
-//        } else if (id == R.id.action_about) {
-//            Log.d("MainActivity BJM", "Option selected About");
-//            Intent intent = new Intent(this, AboutActivity.class);
-//            startActivity(intent);
-//            return true;
-//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -212,8 +215,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d("JJW Lifecycle", "onStart of activity running");
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(airplaneModeReceiver, filter);// This register the BroadcastReciever(airplaneModeReciever)
 
+//test wearable
+        String message = String.valueOf(CisUtility.getRandom(1,20));
+        Log.d("SendMessage", "Max Grade: " + message);
+
+        Activity activity = this;
+        Task<List<com.google.android.gms.wearable.Node>> getConnectedNodesTask = Wearable.getNodeClient(activity).getConnectedNodes();
+        getConnectedNodesTask.addOnSuccessListener(nodes -> {
+            for (Node node : nodes) {
+                Task<Integer> sendMessageTask = Wearable.getMessageClient(activity).sendMessage(
+                        node.getId(),                   // nodeId of the wearable device
+                        "/numericGrade",                  // path for the wearable app to identify the message
+                        message.getBytes());           // data to be sent
+                sendMessageTask.addOnSuccessListener(result -> {
+                    Log.d("Message", "Message sent: " + result);
+                }).addOnFailureListener(e -> {
+                    Log.e("Message", "Failed to send message", e);
+                });
+            }
+        }).addOnFailureListener(e -> {
+            Log.e("Message", "Failed to get connected nodes", e);
+        });
     }
+//end test wearable
+
 
     @Override
     protected void onDestroy() {

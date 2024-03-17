@@ -19,12 +19,12 @@ object GradingAssessmentBO {
      * @author Junjie
      * @since 20231026
      */
-    fun calculateLetterGrade(gat: GradingAssessmentTechnical): String {
+    public final fun calculateLetterGrade(gat: GradingAssessmentTechnical): String {
         return when {
-            gat.numericGrade >= 90 -> "A"
-            gat.numericGrade >= 80 -> "B"
-            gat.numericGrade >= 70 -> "C"
-            gat.numericGrade >= 60 -> "D"
+            gat.getNumericGrade() >= 90 -> "A"
+            gat.getNumericGrade() >= 80 -> "B"
+            gat.getNumericGrade() >= 70 -> "C"
+            gat.getNumericGrade() >= 60 -> "D"
             else -> "F"
         }
     }

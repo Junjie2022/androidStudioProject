@@ -1,7 +1,5 @@
 package info.hccis.grading.util;
 
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
@@ -38,9 +36,8 @@ public class CisUtility {
      *
      * @param inputDouble double to be formatted
      * @return String in default currency format
-     *
-     * @since 20211020
      * @author BJM
+     * @since 20211020
      */
     public static String toCurrency(double inputDouble) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
@@ -52,8 +49,8 @@ public class CisUtility {
      *
      * @param prompt Prompt for the user
      * @return String entered by the user
-     * @since 20211020
      * @author BJM
+     * @since 20211020
      */
     public static String getInputString(String prompt) {
 
@@ -67,8 +64,8 @@ public class CisUtility {
      *
      * @param prompt Prompt for the user
      * @return The double entered by the user
-     * @since 20211020
      * @author BJM
+     * @since 20211020
      */
     public static double getInputDouble(String prompt) {
 
@@ -82,8 +79,8 @@ public class CisUtility {
      *
      * @param prompt Prompt for the user
      * @return The double entered by the user
-     * @since 20211020
      * @author BJM
+     * @since 20211020
      */
     public static int getInputInt(String prompt) {
 
@@ -97,15 +94,15 @@ public class CisUtility {
      *
      * @param prompt Prompt for the user
      * @return boolean as specified by user input
-     * @since 20211108
      * @author BJM
+     * @since 20211108
      */
     public static boolean getInputBoolean(String prompt) {
 
-        String inputString = getInputString(prompt+" (y/n)");
-        if(inputString.equalsIgnoreCase("y")){
+        String inputString = getInputString(prompt + " (y/n)");
+        if (inputString.equalsIgnoreCase("y")) {
             return true;
-        }else{
+        } else {
             return false;
         }
 
@@ -116,20 +113,19 @@ public class CisUtility {
      *
      * @param prompt Prompt for the user
      * @return boolean as specified by user input
-     * @since 20211108
      * @author BJM
+     * @since 20211108
      */
     public static boolean getInputBoolean(String prompt, String affirmative, String negative) {
 
-        String inputString = getInputString(prompt+" ("+affirmative+"/"+negative+")");
-        if(inputString.equalsIgnoreCase(affirmative)){
+        String inputString = getInputString(prompt + " (" + affirmative + "/" + negative + ")");
+        if (inputString.equalsIgnoreCase(affirmative)) {
             return true;
-        }else{
+        } else {
             return false;
         }
 
     }
-
 
 
     /**
@@ -138,11 +134,11 @@ public class CisUtility {
      *
      * @param format Date format desired
      * @return Today's date in specified format
-     * @since 20211021
      * @author BJM
+     * @since 20211021
      */
     public static String getTodayString(String format) {
-        if(format == null || format.isEmpty()){
+        if (format == null || format.isEmpty()) {
             format = "yyyy-MM-dd";
         }
         DateFormat dateFormat = new SimpleDateFormat(format);
@@ -153,14 +149,16 @@ public class CisUtility {
 
     /**
      * Get a random number between min and max
-     * @since 20211109
+     *
      * @author BJM
+     * @since 20211109
      */
-    public static int getRandom(int min, int max){
+    public static int getRandom(int min, int max) {
         Random rand = new Random();
         int theRandomNumber = rand.nextInt((max - min) + 1) + min;
         return theRandomNumber;
     }
+
     public static void createFile(Activity activity, String fileName) {
 
         try (
@@ -175,13 +173,14 @@ public class CisUtility {
     public static void writeToFile(Activity activity, String fileName, String content) {
         try (FileOutputStream fos = activity.openFileOutput(fileName, Context.MODE_APPEND)) {
             fos.write(content.getBytes());
-            Toast.makeText(activity.getApplicationContext(), "Successfully wrote to " + fileName, Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
     public static String readFromFile(Activity activity, String fileName){
         FileInputStream fis;
         try {

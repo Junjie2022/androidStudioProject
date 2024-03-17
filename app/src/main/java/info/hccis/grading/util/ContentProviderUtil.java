@@ -33,8 +33,8 @@ public class ContentProviderUtil {
      * @param activity
      * @param eventDescription
      * @return the event id
-     * @author BJM
-     * @since 20220217
+     * @author JJ
+     * @since 20240317
      */
 
     public static long createEvent(Activity activity, String eventDescription, String title) {
@@ -111,11 +111,11 @@ public class ContentProviderUtil {
             //**************************************************************************************
 
             long eventId = createEvent(activity, calendarToUse, description, title);
-            Log.d("BJM Calendar event", "calendar event id="+eventId);
+            Log.d("JJ Calendar event", "calendar event id="+eventId);
             return eventId;
         }catch(Exception e){
             //todo 20230209 Can we request the permissions to access calendar?
-            Log.d("BJM Calendar","Content Provider Calendar not able to create event");
+            Log.d("JJ Calendar","Content Provider Calendar not able to create event");
             return -1;
         }
 
