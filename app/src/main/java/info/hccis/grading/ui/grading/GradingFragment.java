@@ -108,14 +108,13 @@ public class GradingFragment extends Fragment {
 
                 GradingAssessmentTechnical gat = gradingViewModel.getGat();
 
-        gat.setAssessmentDate(binding.editTextStudentName.getText().toString());
-
+        gat.setAssessmentDate(binding.editTextAssessmentDate.getText().toString());
         gat.setAcademicYear(Integer.valueOf(binding.editTextAcademicYear.getText().toString()));
-        gat.getInstructorName();
-        gat.getCourseRoom();
-        gat.getCourseName();
-        gat.getNumericGrade();
-
+        gat.setInstructorName(binding.editTextStudentName.getText().toString());
+        gat.setCourseRoom(binding.editTextCourseRoom.getText().toString());
+        gat.setCourseName(binding.editTextCourseName.getText().toString());
+        gat.setNumericGrade(Double.valueOf(binding.editTextNumericGrade.getText().toString()));
+        gat.setInstructorName(binding.editTextInstructorName.getText().toString());
 
                 restHandler.postJsonRequest(gat, new ResponseCallBack() {
                     @Override
