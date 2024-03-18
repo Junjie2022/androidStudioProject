@@ -19,7 +19,8 @@ object GradingAssessmentBO {
      * @author Junjie
      * @since 20231026
      */
-    public final fun calculateLetterGrade(gat: GradingAssessmentTechnical): String {
+    @JvmStatic
+    fun calculateLetterGrade(gat: GradingAssessmentTechnical): String {
         return when {
             gat.getNumericGrade() >= 90 -> "A"
             gat.getNumericGrade() >= 80 -> "B"

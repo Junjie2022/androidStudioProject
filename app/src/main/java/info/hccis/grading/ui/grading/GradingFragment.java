@@ -25,6 +25,7 @@ import com.google.android.gms.wearable.Wearable;
 
 import java.util.List;
 
+
 import info.hccis.grading.bo.GradingAssessmentBO;
 import info.hccis.grading.databinding.FragmentGradingBinding;
 import info.hccis.grading.net.ApiWatcher;
@@ -132,7 +133,7 @@ public class GradingFragment extends Fragment {
                     }
                 });
 
-}           CisUtility.writeToFile(getActivity(), "Assessments.txt", gat.toString() + System.lineSeparator());
+        CisUtility.writeToFile(getActivity(), "Assessments.txt", gat.toString() + System.lineSeparator());
             String allAssessments = CisUtility.readFromFile(getActivity(), "Assessments.txt");
                 Log.d("JJ GradingFragment", "GradingFragment - postJsonRequest - onSuccess triggered");
                 Log.d("JJ GradingFragment", "GradingFragment - postJsonRequest - Finished with the add/update");
@@ -226,17 +227,17 @@ public class GradingFragment extends Fragment {
         Activity activity = getActivity();
         Task<List<Node>> getConnectedNodesTask = Wearable.getNodeClient(activity).getConnectedNodes();
         getConnectedNodesTask.addOnSuccessListener(nodes -> {
-            for (Node node : nodes) {
-                Task<String> sendMessageTask = Wearable.getMessageClient(activity).sendMessage(
-                        node.getId(),                   // nodeId of the wearable device
-                        "/LetterGrade",                  // path for the wearable app to identify the message
-                        message.getBytes());           // data to be sent
-                sendMessageTask.addOnSuccessListener(result -> {
-                    Log.d("Message", "Message sent: " + result);
-                }).addOnFailureListener(e -> {
-                    Log.e("Message", "Failed to send message", e);
-                });
-            }
+//            for (Node node : nodes) {
+//                Task<String> sendMessageTask = Wearable.getMessageClient(activity).sendMessage(
+//                        node.getId(),                   // nodeId of the wearable device
+//                        "/LetterGrade",                  // path for the wearable app to identify the message
+//                        message.getBytes());           // data to be sent
+//                sendMessageTask.addOnSuccessListener(result -> {
+//                    Log.d("Message", "Message sent: " + result);
+//                }).addOnFailureListener(e -> {
+//                    Log.e("Message", "Failed to send message", e);
+//                });
+//            }
         }).addOnFailureListener(e -> {
             Log.e("Message", "Failed to get connected nodes", e);
         });
