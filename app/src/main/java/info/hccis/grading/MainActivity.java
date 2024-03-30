@@ -1,6 +1,7 @@
 package info.hccis.grading;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -22,6 +23,12 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.Wearable;
+import com.google.android.material.navigation.NavigationView;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -32,6 +39,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+import info.hccis.grading.bo.GradingWidgetUtil;
 import info.hccis.grading.broadcast.receiver.AirplaneModeReceiver;
 import info.hccis.grading.databinding.ActivityMainBinding;
 import info.hccis.grading.entity.GradingAssessmentContent;
@@ -125,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
         /* Create RestHandler: pass it RequestQueue and SkillsAssessmentSquashTechnical */
         RestHandler restHandler = new RestHandler(requestQueue, new GradingAssessmentTechnical());
+
+        Context context = getApplicationContext();
+        GradingWidgetUtil.setWidgetText(context);
 
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override

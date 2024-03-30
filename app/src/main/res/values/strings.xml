@@ -29,6 +29,9 @@
     <string name="label_developer">Junjie Wang</string>
 
     <string name="preference_load_from_room">loadFromRoom</string>
-
+    <string name="preference_high_grade">highGrade</string>
+    <string name="appwidget_text">High Grade</string>
+    <string name="add_widget">Add numeric grade widget</string>
+    <string name="app_widget_description">See the high grade</string>
 
 </resources>
