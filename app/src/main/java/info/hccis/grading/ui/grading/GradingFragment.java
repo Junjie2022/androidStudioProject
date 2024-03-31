@@ -221,25 +221,25 @@ public class GradingFragment extends Fragment {
 
     private void sendScoreMessageToWearable(String letterGrade) {
         String message = String.valueOf(letterGrade);
-        Log.d("SendMessage", "LetterGrade: " + message);
+        Log.d("SendMessage", "NumericGrade: " + message);
 
         Activity activity = getActivity();
         Task<List<Node>> getConnectedNodesTask = Wearable.getNodeClient(activity).getConnectedNodes();
         getConnectedNodesTask.addOnSuccessListener(nodes -> {
-//            for (Node node : nodes) {
-//                Task<String> sendMessageTask = Wearable.getMessageClient(activity).sendMessage(
-//                        node.getId(),                   // nodeId of the wearable device
-//                        "/LetterGrade",                  // path for the wearable app to identify the message
-//                        message.getBytes());           // data to be sent
-//                sendMessageTask.addOnSuccessListener(result -> {
-//                    Log.d("Message", "Message sent: " + result);
-//                }).addOnFailureListener(e -> {
-//                    Log.e("Message", "Failed to send message", e);
-//                });
-//            }
+            for (Node node : nodes) {
+                Task<Integer> sendMessageTask = Wearable.getMessageClient(activity).sendMessage(
+                        node.getId(),                   // nodeId of the wearable device
+                        "/max_letterGrade",                  // path for the wearable app to identify the message
+                        message.getBytes());           // data to be sent
+                sendMessageTask.addOnSuccessListener(result -> {
+                    Log.d("Message", "Message sent: " + result);
+                }).addOnFailureListener(e -> {
+                    Log.e("Message", "Failed to send message", e);
+                });
+            }
         }).addOnFailureListener(e -> {
             Log.e("Message", "Failed to get connected nodes", e);
         });
     }
+    }
 
-}

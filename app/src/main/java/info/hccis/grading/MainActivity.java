@@ -23,12 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.Wearable;
-import com.google.android.material.navigation.NavigationView;
+
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -231,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
 //test wearable
         String message = String.valueOf(CisUtility.getRandom(1,20));
-        Log.d("SendMessage", "Max Grade: " + message);
+        Log.d("SendMessage", "Max LetterGrade: " + message);
 
         Activity activity = this;
         Task<List<com.google.android.gms.wearable.Node>> getConnectedNodesTask = Wearable.getNodeClient(activity).getConnectedNodes();
@@ -239,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
             for (Node node : nodes) {
                 Task<Integer> sendMessageTask = Wearable.getMessageClient(activity).sendMessage(
                         node.getId(),                   // nodeId of the wearable device
-                        "/numericGrade",                  // path for the wearable app to identify the message
+                        "/max_letterGrade",                  // path for the wearable app to identify the message
                         message.getBytes());           // data to be sent
                 sendMessageTask.addOnSuccessListener(result -> {
                     Log.d("Message", "Message sent: " + result);

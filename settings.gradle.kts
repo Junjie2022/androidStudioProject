@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Grading"
 include(":app")
+include(":gradingwearable")

@@ -40,9 +40,9 @@ public class CustomerAdapterGrading extends RecyclerView.Adapter<CustomerAdapter
     @Override
     public void onBindViewHolder(@NonNull GradingViewHolder holder, int position) {
 
-        String StudentName = "" + gradingAssessmentArrayList.get(position).getStudentName();
+        String studentName = "" + gradingAssessmentArrayList.get(position).getStudentName();
         String assessmentDate = ""+gradingAssessmentArrayList.get(position).getAssessmentDate();
-        String NumericGrade = ""+gradingAssessmentArrayList.get(position).getNumericGrade();
+        String numericGrade = ""+gradingAssessmentArrayList.get(position).getNumericGrade();
 
         //Can access the overall row using holder.itemView
         //https://stackoverflow.com/questions/39146035/change-recycler-view-item-background-color-by-code
@@ -51,9 +51,9 @@ public class CustomerAdapterGrading extends RecyclerView.Adapter<CustomerAdapter
             holder.itemView.setBackgroundResource(R.color.colorAccent);
         }
 
-        holder.textViewStudentName.setText(StudentName);
+        holder.textViewStudentName.setText(studentName);
         holder.textViewAssessmentDate.setText(assessmentDate);
-        holder.textViewNumericGrade.setText(""+NumericGrade);
+        holder.textViewNumericGrade.setText(""+numericGrade);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +91,7 @@ public class CustomerAdapterGrading extends RecyclerView.Adapter<CustomerAdapter
      * This interface will be implemented by the Fragment class to allow navigation to the detail
      * fragment when the row is clicked.
      *
-     * @author bjmaclean
+     * @author JJ
      * @since 20220628
      */
     public interface GradingAssessmentChosenListener {

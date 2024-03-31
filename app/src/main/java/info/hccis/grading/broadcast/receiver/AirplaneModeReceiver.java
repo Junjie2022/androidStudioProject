@@ -18,7 +18,7 @@ public class AirplaneModeReceiver extends android.content.BroadcastReceiver {
         if (isAirplaneModeOn(context.getApplicationContext())) {
             // Airplane mode is ON
             Log.d("BJM Receiver", "Airplane mode is ON");
-            //ApiWatcher.setConnectedToNetwork(true); //todo Fix connected to network issue.
+            ApiWatcher.setConnectedToNetwork(false); //todo Fix connected to network issue.
             showToast(context, "Grading3 - Airplane mode is ON");
 
         } else {
