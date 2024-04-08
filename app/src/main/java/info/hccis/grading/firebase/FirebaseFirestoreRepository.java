@@ -31,9 +31,9 @@ public class FirebaseFirestoreRepository {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void add(ArrayList<GradingAssessmentTechnical> skillsAssessmentSquashTechnicalList) {
+    public void add(ArrayList<GradingAssessmentTechnical> gradingAssessmentTechnicalArrayList) {
         HashMap<String, GradingAssessmentTechnical> map = new HashMap();
-        for (GradingAssessmentTechnical current : skillsAssessmentSquashTechnicalList) {
+        for (GradingAssessmentTechnical current : gradingAssessmentTechnicalArrayList) {
             map.put("" + current.getId(), current);
         }
 

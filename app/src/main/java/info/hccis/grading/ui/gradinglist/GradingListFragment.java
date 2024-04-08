@@ -76,12 +76,12 @@ public class GradingListFragment extends Fragment implements CustomerAdapterGrad
      * @param activity         - originating activity
      * @param destinationClass - class associated with the intent associated with the notification.
      */
-    public static void notifyDataChanged(String message, Activity activity, Class destinationClass) {
+    public static void notifyDataChanged (String message, Activity activity, Class destinationClass) {
         Log.d("jj", "Data changed:  " + message);
         try {
             notifyDataChanged(message);
             NotificationApplication.setContext(context);
-            NotificationUtil.sendNotification("PHall Data Update", message, activity, MainActivity.class);
+            NotificationUtil.sendNotification("Grading Data Update", message, activity, MainActivity.class);
         } catch (Exception e) {
             Log.d("jj notification", "Exception occured when notifying. " + e.getMessage());
         }

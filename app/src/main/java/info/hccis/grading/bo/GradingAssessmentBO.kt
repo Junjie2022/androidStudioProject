@@ -21,14 +21,18 @@ object GradingAssessmentBO {
      */
     @JvmStatic
     fun calculateLetterGrade(gat: GradingAssessmentTechnical): String {
-        return when {
-            gat.getNumericGrade() >= 90 -> "A"
-            gat.getNumericGrade() >= 80 -> "B"
-            gat.getNumericGrade() >= 70 -> "C"
-            gat.getNumericGrade() >= 60 -> "D"
+        val numericGrade = gat.getNumericGrade()
+        val letter = when {
+            numericGrade >= 90 -> "A"
+            numericGrade >= 80 -> "B"
+            numericGrade >= 70 -> "C"
+            numericGrade >= 60 -> "D"
             else -> "F"
         }
+        gat.letterGrade = letter
+        return letter
     }
+
 
     /**
      * This method will return an ArrayList of assessments for testing purposes until
@@ -39,20 +43,40 @@ object GradingAssessmentBO {
      * @author Junjie
      * @since 20240118
      */
-    @Throws(JSONException::class)
-    fun getTestList(): ArrayList<GradingAssessmentTechnical> {
-        val jsonForAssessments = "[{\"id\":1,\"assessmentDate\":\"2022-08-22\",\"studentName\":\"Junjie\",\"instructorName\":\"BJ\",\"courseName\":\"CIS1122\" }]"
-        val jsonArray = JSONArray(jsonForAssessments)
 
-        val theList = ArrayList<GradingAssessmentTechnical>()
-        val gson = Gson()
-        for (currentIndex in 0 until jsonArray.length()) {
-            val current = gson.fromJson(jsonArray.getJSONObject(currentIndex).toString(), GradingAssessmentTechnical::class.java)
-            theList.add(current)
-            Log.d("Junjie test list", current.toString())
+
+    val testList: ArrayList<GradingAssessmentTechnical?>
+        get(){
+        val jsonForAssessments = "[{\"id\":1,\"assessmentDate\":\"2022-08-22\",\"studentName\":\"Junjie\",\"instructorName\":\"BJ\",\"courseName\":\"CIS1122\" }]"
+            var jsonArray: JSONArray? = null
+            jsonArray = try {
+                JSONArray(jsonForAssessments)
+            } catch (e: JSONException) {
+                throw RuntimeException(e)
+            }
+
+            println("Here are the rows")
+            val gson = Gson()
+            val theList = ArrayList<GradingAssessmentTechnical?>()
+            if (jsonArray != null) {
+                for (currentIndex in 0 until jsonArray.length()) {
+                    var current: GradingAssessmentTechnical? = null
+                    if (jsonArray != null) {
+                        current = try {
+                            gson.fromJson(
+                                jsonArray.getJSONObject(currentIndex).toString(),
+                                GradingAssessmentTechnical::class.java
+                            )
+                        } catch (e: JSONException) {
+                            throw RuntimeException(e)
+                        }
+                    }
+                    theList.add(current)
+                    Log.d("JJ test list", current.toString())
+                }
+            }
+            return theList
         }
-        return theList
-    }
 
     /**
      * Share the message.

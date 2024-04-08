@@ -221,7 +221,7 @@ public class GradingFragment extends Fragment {
 
     private void sendScoreMessageToWearable(String letterGrade) {
         String message = String.valueOf(letterGrade);
-        Log.d("SendMessage", "NumericGrade: " + message);
+        Log.d("SendMessage", "letterGrade: " + message);
 
         Activity activity = getActivity();
         Task<List<Node>> getConnectedNodesTask = Wearable.getNodeClient(activity).getConnectedNodes();

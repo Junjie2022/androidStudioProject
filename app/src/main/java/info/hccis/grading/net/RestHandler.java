@@ -28,13 +28,22 @@ import info.hccis.grading.entity.GradingAssessmentTechnical;
  */
 public class RestHandler {
     private String scheme = "http://";
-    //private String ip = SECRET.IP;
-    private String ip = "10.0.2.2"; //Anyone can access this for localhost access
-    private String port = ":8080";
-    //Note fake api doesn't have ending / and is port 80.
-    private String path = "/api/GradingAssessmentService/assessments/";
-    private GradingAssessmentTechnical gat;
+////    //private String ip = SECRET.IP;
+//    private String ip = "10.0.2.2"; //Anyone can access this for localhost access
+//    private String port = ":8080";
+//    //Note fake api doesn't have ending / and is port 80.
+//    private String path = "/api/GradingAssessmentService/assessments/";
+////     //*******************************************************************
+//    //Settings for fake api
+//    //Note fake api doesn't have ending / and is port 80.
+//    //*******************************************************************
+    private String ip = "JJ.hccis.ca"; //Anyone can access this for localhost access
+    private String port = ":80";
+    private String path = "/api/GradingAssessmentService/assessments";
 
+
+
+    private GradingAssessmentTechnical gat;
     private ArrayList<GradingAssessmentTechnical> gatList;
 
     public static final String TAG = "TAG_THIS";
@@ -84,8 +93,8 @@ public class RestHandler {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // TODO: Handle error
-                Log.d("BJM api access Error", "Error: " + error.toString());
-                Log.d("BJM api access errro","Setting sleep time to one minute");
+                Log.d("JJ api access Error", "Error: " + error.toString());
+                Log.d("JJ api access error","Setting sleep time to one minute");
                 ApiWatcher.setSleepTime(60000);
                 callBack.onError();
             }
@@ -156,7 +165,7 @@ public class RestHandler {
                 Log.d("JJ test Error", "Error: " + error.toString());
             }
         });
-        Log.d("BJM test Request", "Request: " + jsonObjectRequest);
+        Log.d("JJ test Request", "Request: " + jsonObjectRequest);
         jsonObjectRequest.setTag(TAG);
         queue.add(jsonObjectRequest);
     }
@@ -177,7 +186,7 @@ public class RestHandler {
                     public void onResponse(JSONObject response) {
                         Gson gson = new Gson();
                         gat = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
-                        Log.d("BJM JSONObject Response", "Response: " + response.toString());
+                        Log.d("JJ JSONObject Response", "Response: " + response.toString());
                         callBack.onSuccess(gat);
                     }
                 }, new Response.ErrorListener() {
@@ -209,18 +218,18 @@ public class RestHandler {
                     public void onResponse(JSONObject response) {
                         Gson gson = new Gson();
                         gat = gson.fromJson(response.toString(), GradingAssessmentTechnical.class);
-                        Log.d("BJM postJsonRequest onResponse", "Response: " + response.toString());
+                        Log.d("JJ postJsonRequest onResponse", "Response: " + response.toString());
                         callBack.onSuccess(gat);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // TODO: Handle error
-                Log.d("BJM postJsonRequest onErrorResponse", "Error: " + error.toString());
+                Log.d("JJ postJsonRequest onErrorResponse", "Error: " + error.toString());
                 callBack.onError();
             }
         });
-        Log.d("BJM postJsonRequest end", "Request: " + jsonObjectRequest);
+        Log.d("JJ postJsonRequest end", "Request: " + jsonObjectRequest);
         jsonObjectRequest.setTag(TAG);
         queue.add(jsonObjectRequest);
     }
@@ -232,7 +241,7 @@ public class RestHandler {
         try {
             postJsonRequest(new JSONObject(gson.toJson(gat)),callBack);
         } catch (JSONException e) {
-            Log.d("BJM posting sast","Error posting sast using rest.");
+            Log.d("JJ posting sast","Error posting sast using rest.");
             throw new RuntimeException(e);
         }
     }

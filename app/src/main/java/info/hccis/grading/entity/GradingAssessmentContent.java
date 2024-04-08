@@ -101,13 +101,13 @@ import info.hccis.grading.dao.MyAppDatabase;
 import info.hccis.grading.entity.GradingAssessmentTechnical;
 
 /**
- * 这个类用于访问存储在本地设备数据库中的业务数据。
- * @since 20230209
- * @author BJM
+ * This class will be used to access the business data stored on the local device database.
+ * @since 20240209
+ * @author JJ
  */
 public class GradingAssessmentContent {
 
-    //Room Database 属性
+    //Room Database attribute
     private static MyAppDatabase myAppDatabase;
 
     /**
@@ -127,7 +127,7 @@ public class GradingAssessmentContent {
      */
     public static void setMyAppDatabase(Context context){
         //****************************************************************************************
-        //设置数据库属性（Room数据库）
+        //Set the database attribute (Room database)
         //****************************************************************************************
 
             myAppDatabase = Room.databaseBuilder(context, MyAppDatabase.class, "gradingassessmentdb").allowMainThreadQueries().build();
@@ -135,17 +135,18 @@ public class GradingAssessmentContent {
     }
 
     /**
-     * 此方法将根据列表中的项目重新加载房间数据库。
+     * This method will take the list passed in and reload the room database
+     * based on the items in the list.
      * @param gradingAssessments
-     * @since 20220210
-     * @author BJM
+     * @since 20240210
+     * @author JJ
      */
     public static void reloadGradingAssessmentsInRoom(List<GradingAssessmentTechnical> gradingAssessments)
     {
-        //删除所有条目
+        //Delete all entries
         getMyAppDatabase().gradingAssessmentDAO().deleteAll();
 
-        //循环并插入每个条目。
+        //Delete all entries
         for(GradingAssessmentTechnical current : gradingAssessments)
         {
             getMyAppDatabase().gradingAssessmentDAO().insert(current);

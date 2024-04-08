@@ -19,12 +19,12 @@ public class NotificationUtil {
      * @param title
      * @param message
      * @since 20240229
-     * @author BJM
+     * @author JJ
      */
 
     public static synchronized void sendNotification(String title, String message) {
         //Channel Id is ignored on lower APIs
-        Log.d("BJM notification", "Sending a notification");
+        Log.d("JJ notification", "Sending a notification");
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(NotificationApplication.getContext(), NotificationApplication.MEMBER_CHANNEL_ID)

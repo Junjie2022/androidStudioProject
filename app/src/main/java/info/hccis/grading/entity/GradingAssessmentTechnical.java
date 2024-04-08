@@ -11,18 +11,11 @@ public class GradingAssessmentTechnical implements Serializable {
 
     private String assessmentDate;
     private String studentName;
-
     private String instructorName;
-
     private String courseName;
-
     private String courseRoom;
-    //@Max(value=100)  @Min(value=0)//if you know range of your decimal fields consider using these annotations to enforce field validation
-
     private Double numericGrade;
-
     private String letterGrade;
-
     private Integer academicYear;
 
     public GradingAssessmentTechnical() {

@@ -14,8 +14,10 @@ import info.hccis.grading.bo.GradingWidgetUtil;
 import java.util.ArrayList;
 import java.util.List;
 import info.hccis.grading.R;
+import info.hccis.grading.broadcast.receiver.BroadcastSender;
 import info.hccis.grading.entity.GradingAssessmentContent;
 import info.hccis.grading.entity.GradingAssessmentTechnical;
+import info.hccis.grading.firebase.FirebaseFirestoreRepository;
 import info.hccis.grading.ui.gradinglist.GradingListFragment;
 import info.hccis.grading.ui.gradinglist.GradingListViewModel;
 
@@ -23,8 +25,8 @@ import info.hccis.grading.ui.gradinglist.GradingListViewModel;
  * ApiWatcher class will be used as a background thread which will monitor the api. It will notify
  * the ui activity if the number of rows changes.
  *
- * @author BJM modified by Mariana Alkabalan 20210402 remodified by BJM 20220202
- * @since 20210329
+ * @author JJ modified by Mariana Alkabalan 20210402 remodified by BJM 20220202
+ * @since 20240329
  */
 
 public class ApiWatcher extends Thread {
@@ -37,8 +39,6 @@ public class ApiWatcher extends Thread {
     public static void setSleepTime(int milliSeconds) {
         sleepTime = milliSeconds;
     }
-
-    //The activity is passed in to allow the runOnUIThread to be used.
 
     private static boolean currentlyConnected = true;
     private FragmentActivity activity = null;
@@ -90,6 +90,14 @@ public class ApiWatcher extends Thread {
                         //******************************************************************
 
                         if (!newList.equals(oldList)) {
+                          ////Set the high grade in shared preferences
+                            GradingWidgetUtil.setHighGrade(activity.getApplicationContext(),newList);
+
+                            FirebaseFirestoreRepository.getInstance().add(new ArrayList<>(newList));
+
+                            Log.d("jj data changed","old size:"+oldList.size()+" new size"+newList.size());
+                            BroadcastSender.sendCustomBroadcast(activity.getApplicationContext());
+
                             //Note:  The following line will clear/addAll rather than change the list object.
                             gradingListViewModel.setGradingArrayList(newList);
 
@@ -119,7 +127,11 @@ public class ApiWatcher extends Thread {
 
                     @Override
                     public void onError() {
-                        Log.d("BJM ApiWatcher", "onError calling api triggered");
+                        Log.d("BJM ApiWatcher", "ApiWatcher run onError calling api triggered");
+
+                        //set connected to false
+                        setConnectedToNetwork(false);
+
                         //Was not able to obtain data from the api.  In the future will
                         //load from Room database if desired.
                         //******************************************************************************************
@@ -176,7 +188,7 @@ public class ApiWatcher extends Thread {
      * @since 20220211
      */
     public void loadFromRoomIfPreferred(GradingListViewModel gradingListViewModel) {
-        Log.d("BJM room", "Check to see if should load from room");
+        Log.d("JJ room", "Check to see if should load from room");
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
 
         boolean loadFromRoom = sharedPref.getBoolean(activity.getString(R.string.preference_load_from_room), true);

@@ -35,7 +35,7 @@ public class NotificationApplication extends Application {
             }
             NotificationChannel channel1 = new NotificationChannel(
                     MEMBER_CHANNEL_ID,
-                    "Squash Chanel",
+                    "Grading Chanel",
                     NotificationManager.IMPORTANCE_HIGH
             );
             channel1.setDescription("Grading Notifications");
