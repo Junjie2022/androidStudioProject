@@ -110,7 +110,7 @@ public class GradingFragment extends Fragment {
 
         gat.setAssessmentDate(binding.editTextAssessmentDate.getText().toString());
         gat.setAcademicYear(Integer.valueOf(binding.editTextAcademicYear.getText().toString()));
-        gat.setInstructorName(binding.editTextStudentName.getText().toString());
+        gat.setStudentName(binding.editTextStudentName.getText().toString());
         gat.setCourseRoom(binding.editTextCourseRoom.getText().toString());
         gat.setCourseName(binding.editTextCourseName.getText().toString());
         gat.setNumericGrade(Double.valueOf(binding.editTextNumericGrade.getText().toString()));
@@ -121,10 +121,20 @@ public class GradingFragment extends Fragment {
                     public void onSuccess(Object object) {
                         Log.d("JJ GradingFragment", "GradingFragment - postJsonRequest - onSuccess triggered");
                         GradingAssessmentTechnical gat = (GradingAssessmentTechnical) object;
+                        gradingViewModel.setGat(gat);
                         Toast.makeText(getActivity().getApplicationContext(), "Successfully saved", Toast.LENGTH_SHORT).show();
                         ContentProviderUtil.createEvent(getActivity(), gat.toString(), "Grading Assessed");
-//                        ContentProviderUtil.createCalendarEventIntent(getActivity(), sast, "Skills Assessed");
+
+                        // 更新所有字段
+                        binding.editTextAssessmentDate.setText(gat.getAssessmentDate());
+                        binding.editTextStudentName.setText(gat.getStudentName());
+                        binding.editTextAcademicYear.setText(String.valueOf(gat.getAcademicYear()));
+                        binding.editTextCourseRoom.setText(gat.getCourseRoom());
+                        binding.editTextInstructorName.setText(gat.getInstructorName());
+                        binding.editTextCourseName.setText(gat.getCourseName());
+                        binding.editTextNumericGrade.setText(String.valueOf(gat.getNumericGrade()));
                     }
+
                     @Override
                     public void onError() {
                         Log.d("JJ GradingFragment", "GradingFragment - postJsonRequest - onError triggered");

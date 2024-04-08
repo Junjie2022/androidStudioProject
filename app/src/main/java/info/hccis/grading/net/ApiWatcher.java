@@ -93,7 +93,7 @@ public class ApiWatcher extends Thread {
                           ////Set the high grade in shared preferences
                             GradingWidgetUtil.setHighGrade(activity.getApplicationContext(),newList);
 
-                            FirebaseFirestoreRepository.getInstance().add(new ArrayList<>(newList));
+                            //FirebaseFirestoreRepository.getInstance().add(new ArrayList<>(newList));
 
                             Log.d("jj data changed","old size:"+oldList.size()+" new size"+newList.size());
                             BroadcastSender.sendCustomBroadcast(activity.getApplicationContext());

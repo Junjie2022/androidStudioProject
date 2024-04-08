@@ -29,17 +29,17 @@ import info.hccis.grading.entity.GradingAssessmentTechnical;
 public class RestHandler {
     private String scheme = "http://";
 ////    //private String ip = SECRET.IP;
-//    private String ip = "10.0.2.2"; //Anyone can access this for localhost access
-//    private String port = ":8080";
-//    //Note fake api doesn't have ending / and is port 80.
-//    private String path = "/api/GradingAssessmentService/assessments/";
+    private String ip = "10.0.2.2"; //Anyone can access this for localhost access
+    private String port = ":8080";
+    //Note fake api doesn't have ending / and is port 80.
+    private String path = "/api/GradingAssessmentService/assessments/";
 ////     //*******************************************************************
 //    //Settings for fake api
 //    //Note fake api doesn't have ending / and is port 80.
 //    //*******************************************************************
-    private String ip = "JJ.hccis.ca"; //Anyone can access this for localhost access
-    private String port = ":80";
-    private String path = "/api/GradingAssessmentService/assessments";
+//    private String ip = "JJ.hccis.ca"; //Anyone can access this for localhost access
+//    private String port = ":80";
+//    private String path = "/api/GradingAssessmentService/assessments";
 
 
 
@@ -241,7 +241,7 @@ public class RestHandler {
         try {
             postJsonRequest(new JSONObject(gson.toJson(gat)),callBack);
         } catch (JSONException e) {
-            Log.d("JJ posting sast","Error posting sast using rest.");
+            Log.d("JJ posting gat","Error posting sast using rest.");
             throw new RuntimeException(e);
         }
     }
