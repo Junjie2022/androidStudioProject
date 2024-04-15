@@ -130,15 +130,9 @@ public class GradingAssessmentTechnical implements Serializable {
     @Override
     public String toString() {
 
-        String output="--Assessment Details--" +
-                " \nAssessmentDate: " + getAssessmentDate()+
+        String output=
                 " \nStudentName: " + getStudentName()+
-                " \n CourseName: " + getCourseName() +
-                " \n CourseRoom: " + getCourseRoom() +
-                " \n InstructorName: " + getInstructorName() +
-                " \n AcademicYear: " + getAcademicYear() +
-                " \n NumericGrade: " + getNumericGrade()+
-                "\n LetterGrade:"+getLetterGrade();
+                " NumericGrade: " + getNumericGrade();
         return output;
     }
 
